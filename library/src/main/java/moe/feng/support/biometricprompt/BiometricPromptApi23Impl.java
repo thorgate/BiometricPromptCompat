@@ -223,9 +223,17 @@ class BiometricPromptApi23Impl implements IBiometricPromptImpl {
         public void onAuthenticationError(int errorCode, CharSequence errString) {
             animateHandler.removeMessages(AnimateHandler.WHAT_RESTORE_NORMAL_STATE);
             if (errString != null) {
-                dialog.getStatus().setText(errString);
+                dialog.getStatus().post(new Runnable() {
+                    public void run () {
+                        dialog.getStatus().setText(errString);
+                    }
+                });
             }
-            dialog.getFingerprintIcon().setState(FingerprintIconView.State.ERROR);
+            dialog.getFingerprintIcon().post(new Runnable() {
+                public void run () {
+                    dialog.getFingerprintIcon().setState(FingerprintIconView.State.ERROR);
+                }
+            });
             animateHandler.sendEmptyMessageDelayed(AnimateHandler.WHAT_RESTORE_NORMAL_STATE, 2000);
             callback.onAuthenticationError(errorCode, errString);
         }
@@ -249,8 +257,16 @@ class BiometricPromptApi23Impl implements IBiometricPromptImpl {
         @Override
         public void onAuthenticationFailed() {
             animateHandler.removeMessages(AnimateHandler.WHAT_RESTORE_NORMAL_STATE);
-            dialog.getFingerprintIcon().setState(FingerprintIconView.State.ERROR);
-            dialog.getStatus().setText(R.string.not_recognized_fingerprint_hint);
+            dialog.getFingerprintIcon().post(new Runnable() {
+                public void run () {
+                    dialog.getFingerprintIcon().setState(FingerprintIconView.State.ERROR);
+                }
+            });
+            dialog.getStatus().post(new Runnable() {
+                public void run () {
+                    dialog.getStatus().setText(R.string.not_recognized_fingerprint_hint);
+                }
+            });
             animateHandler.sendEmptyMessageDelayed(AnimateHandler.WHAT_RESTORE_NORMAL_STATE, 2000);
             callback.onAuthenticationFailed();
         }

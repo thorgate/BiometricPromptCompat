@@ -50,6 +50,7 @@ class FingerprintIconView extends ImageView {
             if (icon == null) {
                 icon = VectorDrawableCompat.create(getResources(), resId, getContext().getTheme());
             }
+
             setImageDrawable(icon);
 
             if (icon instanceof Animatable) {
