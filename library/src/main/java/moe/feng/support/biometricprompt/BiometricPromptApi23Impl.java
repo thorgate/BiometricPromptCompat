@@ -241,7 +241,11 @@ class BiometricPromptApi23Impl implements IBiometricPromptImpl {
         @Override
         public void onAuthenticationHelp(int helpCode, CharSequence helpString) {
             if (helpString != null) {
-                dialog.getStatus().setText(helpString);
+                dialog.getStatus().post(new Runnable() {
+                    public void run () {
+                        dialog.getStatus().setText(helpString);
+                    }
+                });
             }
             dialog.getFingerprintIcon().setState(FingerprintIconView.State.ON);
             callback.onAuthenticationHelp(helpCode, helpString);
